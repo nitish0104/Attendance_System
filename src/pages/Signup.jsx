@@ -6,8 +6,8 @@ import Layout from "../components/Layout";
 const signup = () => {
   return (
     <>
-      <Layout className="flex items-center justify-center ">
-        <div className="flex justify-center items-center">
+      <Layout >
+        
           <div className="w-[50%] h-[80%] bg-white m-auto rounded-md flex flex-col justify-center items-center gap-2	p-6">
             <h1 className="text-black text-3xl font-semibold text-center">
               Create Student Account
@@ -37,7 +37,7 @@ const signup = () => {
               Create Account
             </button>
           </div>
-        </div>
+        
       </Layout>
     </>
   );

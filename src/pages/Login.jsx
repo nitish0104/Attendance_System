@@ -5,9 +5,9 @@ import Layout from "../components/Layout";
 
 const Login = () => {
   return (
-    <Layout className="flex items-center justify-center ">
-      <div className="flex justify-center items-center">
-        <div className="w-[50%] h-[80%] bg-white m-auto rounded-md flex flex-col justify-center items-center gap-2	p-6">
+    <Layout >
+  
+        <div className="w-[50%] h-[80%] bg-white rounded-md  flex flex-col items-center gap-2	p-6">
           <h1 className="text-black text-3xl font-semibold text-center">
             Login Here
           </h1>
@@ -25,9 +25,9 @@ const Login = () => {
             </Link>
           </div>
           <button className="bg-purple-500 text-center text-xl text-white rounded-lg p-1 hover:bg-purple-400">
-            Create Account
+            Login
           </button>
-        </div>
+      
       </div>
     </Layout>
   );
