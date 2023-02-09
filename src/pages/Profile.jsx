@@ -28,28 +28,30 @@ const Profile = () => {
         </div>
 
         <div className="absolute w-[70vw] h-[90vh] bg-white flex flex-col items-center justify-center right-5 rounded-lg gap-y-5">
-          <h1 className="text-4xl font-bold text-center ">Profile</h1>
-          <Input
-            type={"name"}
-            label="Enter your name"
-            placeholder={"Enter your name"}
-          />
-          <Input
-            type={"number"}
-            label="Enter your roll number"
-            placeholder={"Enter your roll number"}
-          />
-          <Input
-            type={"mail"}
-            label="Your Mail"
-            placeholder={"Enter your Mail"}
-          />
-          <Select label="Branch" options={option_branch}></Select>
-          <Select label="Year" options={option_year}></Select>
+          <form action="">
+            <h1 className="text-4xl font-bold text-center ">Profile</h1>
+            <Input
+              type={"name"}
+              label="Enter your name"
+              placeholder={"Enter your name"}
+            />
+            <Input
+              type={"number"}
+              label="Enter your roll number"
+              placeholder={"Enter your roll number"}
+            />
+            <Input
+              type={"mail"}
+              label="Your Mail"
+              placeholder={"Enter your Mail"}
+            />
+            <Select label="Branch" options={option_branch}></Select>
+            <Select label="Year" options={option_year}></Select>
 
-          <button className="bg-purple-500 text-center text-xl text-white rounded-lg p-1 hover:bg-purple-400 shadow hover:shadow-lg hover:scale-105 duration-200">
-            Submit
-          </button>
+            <button className="bg-purple-500 text-center text-xl text-white rounded-lg p-1 hover:bg-purple-400 shadow hover:shadow-lg hover:scale-105 duration-200">
+              Submit
+            </button>
+          </form>
         </div>
       </Layout>
     </>
