@@ -1,15 +1,16 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Input from "../components/Input";
 import Layout from "../components/Layout";
 import { UserAuth } from "../context/Auth_context";
+import { auth } from "../Firebase_config";
 
 const Login = () => {
-  const { handleLogin } = UserAuth();
+  const { user, setUser } = UserAuth();
   const initialState = {
     email: "",
     password: "",
-    confirmpassword: "",
   };
   const [formState, setFormState] = useState(initialState);
 
@@ -18,6 +19,19 @@ const Login = () => {
       ...formState,
       [e.target.id]: e.target.value,
     });
+  };
+
+  const handleSubmit = () => {
+    signInWithEmailAndPassword(auth, formState.email, formState.password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        setUser(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
   };
 
   return (
@@ -50,7 +64,7 @@ const Login = () => {
           <button
             type="button"
             onClick={() => {
-              handleLogin(formState);
+              handleSubmit();
             }}
             className="bg-purple-500 text-center text-xl text-white rounded-lg p-1 hover:bg-purple-400"
           >

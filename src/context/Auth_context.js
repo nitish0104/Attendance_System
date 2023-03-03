@@ -10,25 +10,23 @@ const AuthContext = createContext()
 const AuthenticationContext = ({ children }) => {
 	const [user, setUser] = useState();
 	const naviGate = useNavigate()
+
 	const handleSignup = async (formState) => {
-
 		if (formState.password === formState.confirmpassword) {
-
-			console.log(formState)
 			await createUserWithEmailAndPassword(auth, formState.email, formState.password)
 				.then((userCredential) => {
 					const user = userCredential.user;
 					setUser(user);
-					console.log(user)
-					console.log(user.email)
-					console.log(user.uid)
 					setDoc(doc(db, "Student_attendance", user.uid), {
 						email: user.email,
 						uid: user.uid
+					}).then(() => {
+						sendEmailVerification(auth.currentUser).then(() => {
+							naviGate("/Profile")
+						})
 					})
 				})
-			await sendEmailVerification(auth.currentUser)
-			naviGate("/Profile")
+
 		}
 		else alert("password not match")
 	}
