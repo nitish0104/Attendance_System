@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import Input from "../components/Input";
 import { option_year, option_branch } from "../components/Data";
 import Select from "../components/Select";
 import { UserAuth } from "../context/Auth_context";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../Firebase_config";
+import { auth, db } from "../Firebase_config";
+import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
 
 const Profile = () => {
-  const { user } = UserAuth();
+  const { user, userdata } = UserAuth();
+  const naviGate = useNavigate();
   const initialState = {
     name: "",
     number: "",
@@ -17,7 +20,6 @@ const Profile = () => {
     year: "",
   };
   const [formState, setFormState] = useState(initialState);
-
   const handleFormChange = (e) => {
     setFormState({
       ...formState,
@@ -25,10 +27,21 @@ const Profile = () => {
     });
   };
 
-  const handleUpdateProfile = async () => {
-    const washingtonRef = doc(db, "Student_attendance", `${user.uid}`);
+  useEffect(() => {
+    setFormState(userdata);
+  }, [userdata]);
 
-    await updateDoc(washingtonRef, formState);
+  const handleUpdateProfile = async () => {
+    const updateRef = doc(db, "Student_attendance", `${user.uid}`);
+    await updateDoc(updateRef, formState).then(() => {
+      console.log(user.uid);
+      alert("document updated");
+    });
+  };
+  const logOut = async () => {
+    await signOut(auth).then(() => {
+      naviGate("/Login");
+    });
   };
 
   return (
@@ -47,9 +60,12 @@ const Profile = () => {
             <div className="mx-auto w-[10vw] h-[100%] cursor-pointer p-2 rounded-md font-semibold hover:scale-105 shadow hover:shadow-lg duration-200 bg-black text-white">
               Your Attendance
             </div>
-            <div className="mx-auto w-[10vw] h-[100%] cursor-pointer p-2 rounded-md font-semibold hover:scale-105 shadow hover:shadow-lg duration-200 bg-red-600 text-white">
+            <button
+              onClick={logOut}
+              className="mx-auto w-[10vw] h-[100%] cursor-pointer p-2 rounded-md font-semibold hover:scale-105 shadow hover:shadow-lg duration-200 bg-red-600 text-white"
+            >
               Log Out
-            </div>
+            </button>
           </div>
         </div>
 
@@ -76,7 +92,6 @@ const Profile = () => {
               label="Your Mail"
               placeholder={"Enter your Mail"}
               onChange={handleFormChange}
-              value={UserAuth.email}
             />
             <Select
               id="branch"

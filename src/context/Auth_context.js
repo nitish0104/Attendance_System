@@ -1,15 +1,34 @@
-import React, { createContext, useContext, useState } from 'react'
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import React, { createContext, useContext, useEffect, useState } from 'react'
+import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification } from "firebase/auth";
 import { auth, db } from '../Firebase_config';
 import { useNavigate } from 'react-router-dom';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, onSnapshot, setDoc } from 'firebase/firestore';
 
 
 const AuthContext = createContext()
 
 const AuthenticationContext = ({ children }) => {
 	const [user, setUser] = useState();
+	const [userdata, setuserdata] = useState()
 	const naviGate = useNavigate()
+
+	useEffect(() => {
+		onAuthStateChanged(auth, (user) => {
+			if (user) {
+				setUser(user)
+				const unsub = onSnapshot(doc(db, "Student_attendance", user.uid), (doc) => {
+					console.log("Current data: ", doc.data());
+					setuserdata(doc.data());
+				});
+
+				// ...
+			} else {
+				setUser()
+				setuserdata()
+				naviGate('/login')
+			}
+		});
+	}, [])
 
 	const handleSignup = async (formState) => {
 		if (formState.password === formState.confirmpassword) {
@@ -26,19 +45,16 @@ const AuthenticationContext = ({ children }) => {
 						})
 					})
 				})
-
 		}
 		else alert("password not match")
 	}
-	// const handleLogin = async ({ formState }) => {
-	// 	console.log(formState)
-	// 	await setDoc(doc(db, "Attendance",), formState);
 
-	// }
+
+
 
 	return (
 		<>
-			<AuthContext.Provider value={{ user, setUser, handleSignup }}>
+			<AuthContext.Provider value={{ user, setUser, handleSignup, userdata }}>
 				{children}
 			</AuthContext.Provider>
 		</>

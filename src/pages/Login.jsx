@@ -1,13 +1,14 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../components/Input";
 import Layout from "../components/Layout";
 import { UserAuth } from "../context/Auth_context";
 import { auth } from "../Firebase_config";
 
 const Login = () => {
-  const { user, setUser } = UserAuth();
+  const { setUser } = UserAuth();
+  const naviGate = useNavigate();
   const initialState = {
     email: "",
     password: "",
@@ -21,17 +22,18 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = () => {
-    signInWithEmailAndPassword(auth, formState.email, formState.password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-        setUser(user);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-      });
+  const handleloginIn = async () => {
+    await signInWithEmailAndPassword(
+      auth,
+      formState.email,
+      formState.password
+    ).then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      setUser(user);
+      naviGate("/Profile");
+      // ...
+    });
   };
 
   return (
@@ -63,9 +65,7 @@ const Login = () => {
           </div>
           <button
             type="button"
-            onClick={() => {
-              handleSubmit();
-            }}
+            onClick={handleloginIn}
             className="bg-purple-500 text-center text-xl text-white rounded-lg p-1 hover:bg-purple-400"
           >
             Login
