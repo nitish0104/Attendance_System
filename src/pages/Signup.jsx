@@ -22,7 +22,7 @@ const Signup = () => {
   return (
     <>
       <Layout>
-        <div className="w-[50%] h-[80%] bg-white m-auto rounded-md flex flex-col justify-center items-center gap-2	p-6">
+        <div className="w-[80%] h-[60%] md:w-fit bg-white m-auto rounded-md flex flex-col justify-center items-center gap-2	p-6">
           <form action="">
             <h1 className="text-black text-3xl font-semibold text-center">
               Create Student Account

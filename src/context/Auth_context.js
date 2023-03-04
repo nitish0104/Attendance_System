@@ -18,13 +18,15 @@ const AuthenticationContext = ({ children }) => {
 				setUser(user)
 				const unsub = onSnapshot(doc(db, "Student_attendance", user.uid), (doc) => {
 					console.log("Current data: ", doc.data());
+					
 					setuserdata(doc.data());
+				
 				});
 
 				// ...
 			} else {
-				setUser()
-				setuserdata()
+				setUser(null)
+				setuserdata(null)
 				naviGate('/login')
 			}
 		});
@@ -41,9 +43,13 @@ const AuthenticationContext = ({ children }) => {
 						uid: user.uid
 					}).then(() => {
 						sendEmailVerification(auth.currentUser).then(() => {
-							naviGate("/Profile")
+							alert("Account Created")
+							naviGate("/Dashboard")
 						})
 					})
+				})
+				.catch((error)=>{
+alert(error)
 				})
 		}
 		else alert("password not match")

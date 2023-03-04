@@ -31,19 +31,20 @@ const Login = () => {
       // Signed in
       const user = userCredential.user;
       setUser(user);
-      naviGate("/Profile");
+      naviGate("/Dashboard");
       // ...
     });
   };
 
   return (
     <Layout>
-      <div className="w-[50%] h-[80%] bg-white rounded-md  flex flex-col items-center gap-2	p-6">
-        <form action="">
+      <div className="w-[80%] h-[60%] md:w-fit p-4 bg-white rounded-md  flex flex-col items-center  gap-2	pt-3">
+        
           <h1 className="text-black text-3xl font-semibold text-center">
             Login Here
           </h1>
           <Input
+          
             onChange={handleFormChange}
             id="email"
             label={"Mail"}
@@ -57,7 +58,7 @@ const Login = () => {
             type={"password"}
             placeholder={"Enter Your password"}
           />
-          <div className="flex gap-8">
+          <div className="flex">
             <span>Dosen't have a account?</span>
             <Link to="/Signup" className="text-blue-900">
               Create Here
@@ -70,7 +71,7 @@ const Login = () => {
           >
             Login
           </button>
-        </form>
+      
       </div>
     </Layout>
   );

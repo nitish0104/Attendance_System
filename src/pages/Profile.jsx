@@ -35,41 +35,75 @@ const Profile = () => {
     const updateRef = doc(db, "Student_attendance", `${user.uid}`);
     await updateDoc(updateRef, formState).then(() => {
       console.log(user.uid);
+    
       alert("document updated");
     });
   };
-  const logOut = async () => {
-    await signOut(auth).then(() => {
-      naviGate("/Login");
-    });
-  };
+
 
   return (
     <>
       <Layout>
-        <div className="w-[23vw] h-[30vh] bg-white absolute left-5 rounded-lg">
-          <h1 className="font-bold text-xl flex justify-center">Account</h1>
+      
+{userdata ? (
 
-          <div className="grid grid-cols-2 gap-5 text-center py-6 ">
-            <div className="mx-auto w-[10vw] h-[100%] cursor-pointer p-2 rounded-md font-semibold hover:scale-105 shadow hover:shadow-lg duration-200 bg-black text-white">
-              Profile
-            </div>
-            <div className="mx-auto w-[10vw] h-[100%] cursor-pointer p-2 rounded-md font-semibold hover:scale-105 shadow hover:shadow-lg duration-200 bg-black text-white">
-              Notification
-            </div>
-            <div className="mx-auto w-[10vw] h-[100%] cursor-pointer p-2 rounded-md font-semibold hover:scale-105 shadow hover:shadow-lg duration-200 bg-black text-white">
-              Your Attendance
-            </div>
+  <div className="absolute w-[90vw] h-[80vh] bg-white flex flex-col items-center justify-center  rounded-lg gap-y-5">
+          <form action="" className="contents w-[100vw]">
+            <h1 className="text-4xl font-bold text-center ">Profile</h1>
+            <Input
+              id="name"
+              type={"name"}
+              label="Enter your name"
+              placeholder={"Enter your name"}
+              onChange={handleFormChange}
+              value = {userdata.name}
+              
+              />
+            <Input
+              id="number"
+              type={"number"}
+              label="Enter your roll number"
+              placeholder={"Enter your roll number"}
+              onChange={handleFormChange}
+              value = {userdata.number}
+              />
+            <Input
+              id="email"
+              type={"mail"}
+              label="Your Mail"
+              placeholder={"Enter your Mail"}
+              onChange={handleFormChange}
+              value= {userdata.email}
+              />
+            <Select
+              id="branch"
+              label="Branch"
+              options={option_branch}
+              onChange={handleFormChange}
+              value={userdata.branch}
+              ></Select>
+            <Select
+              id="year"
+              label="Year"
+              options={option_year}
+              onChange={handleFormChange}
+              value= {userdata.year}
+              ></Select>
+
             <button
-              onClick={logOut}
-              className="mx-auto w-[10vw] h-[100%] cursor-pointer p-2 rounded-md font-semibold hover:scale-105 shadow hover:shadow-lg duration-200 bg-red-600 text-white"
-            >
-              Log Out
+              onClick={handleUpdateProfile}
+              type="button"
+              className="bg-purple-500 text-center text-xl text-white rounded-lg p-1 hover:bg-purple-400 shadow hover:shadow-lg hover:scale-105 duration-200"
+              >
+              Update
             </button>
-          </div>
+          </form>
         </div>
+        )
+        :
+        (
 
-        <div className="absolute w-[70vw] h-[90vh] bg-white flex flex-col items-center justify-center right-5 rounded-lg gap-y-5">
+          <div className="absolute w-[70vw] h-[90vh] bg-white flex flex-col items-center justify-center right-5 rounded-lg gap-y-5">
           <form action="" className="contents w-[100vw]">
             <h1 className="text-4xl font-bold text-center ">Profile</h1>
             <Input
@@ -85,36 +119,39 @@ const Profile = () => {
               label="Enter your roll number"
               placeholder={"Enter your roll number"}
               onChange={handleFormChange}
-            />
+              />
             <Input
               id="email"
               type={"mail"}
               label="Your Mail"
               placeholder={"Enter your Mail"}
               onChange={handleFormChange}
-            />
+              />
             <Select
               id="branch"
               label="Branch"
               options={option_branch}
               onChange={handleFormChange}
-            ></Select>
+              ></Select>
             <Select
               id="year"
               label="Year"
               options={option_year}
               onChange={handleFormChange}
-            ></Select>
+              ></Select>
 
             <button
               onClick={handleUpdateProfile}
               type="button"
               className="bg-purple-500 text-center text-xl text-white rounded-lg p-1 hover:bg-purple-400 shadow hover:shadow-lg hover:scale-105 duration-200"
-            >
+              >
               Update
             </button>
           </form>
         </div>
+          )
+
+}
       </Layout>
     </>
   );
