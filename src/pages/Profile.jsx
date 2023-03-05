@@ -5,9 +5,8 @@ import { option_year, option_branch } from "../components/Data";
 import Select from "../components/Select";
 import { UserAuth } from "../context/Auth_context";
 import { doc, updateDoc } from "firebase/firestore";
-import { auth, db } from "../Firebase_config";
+import { db } from "../Firebase_config";
 import { useNavigate } from "react-router-dom";
-import { signOut } from "firebase/auth";
 
 const Profile = () => {
   const { user, userdata } = UserAuth();
@@ -33,125 +32,120 @@ const Profile = () => {
 
   const handleUpdateProfile = async () => {
     const updateRef = doc(db, "Student_attendance", `${user.uid}`);
-    await updateDoc(updateRef, formState).then(() => {
-      console.log(user.uid);
-    
-      alert("document updated");
-    });
-  };
+    await updateDoc(updateRef, formState)
+      .then(() => {
+        console.log(user.uid);
 
+        alert("document updated");
+      })
+      .then(() => {
+        naviGate("/Dashboard");
+      });
+  };
 
   return (
     <>
       <Layout>
-      
-{userdata ? (
-
-  <div className="absolute w-[90vw] h-[80vh] bg-white flex flex-col items-center justify-center  rounded-lg gap-y-5">
-          <form action="" className="contents w-[100vw]">
-            <h1 className="text-4xl font-bold text-center ">Profile</h1>
-            <Input
-              id="name"
-              type={"name"}
-              label="Enter your name"
-              placeholder={"Enter your name"}
-              onChange={handleFormChange}
-              value = {userdata.name}
-              
+        {userdata ? (
+          <div className="absolute w-[90vw] h-[80vh] bg-white flex flex-col items-center justify-center  rounded-lg gap-y-5">
+            <form action="" className="contents w-[100vw]">
+              <h1 className="text-4xl font-bold text-center ">Profile</h1>
+              <Input
+                id="name"
+                type={"name"}
+                label="Enter your name"
+                placeholder={"Enter your name"}
+                onChange={handleFormChange}
+                value={userdata.name}
               />
-            <Input
-              id="number"
-              type={"number"}
-              label="Enter your roll number"
-              placeholder={"Enter your roll number"}
-              onChange={handleFormChange}
-              value = {userdata.number}
+              <Input
+                id="number"
+                type={"number"}
+                label="Enter your roll number"
+                placeholder={"Enter your roll number"}
+                onChange={handleFormChange}
+                value={userdata.number}
               />
-            <Input
-              id="email"
-              type={"mail"}
-              label="Your Mail"
-              placeholder={"Enter your Mail"}
-              onChange={handleFormChange}
-              value= {userdata.email}
+              <Input
+                id="email"
+                type={"mail"}
+                label="Your Mail"
+                placeholder={"Enter your Mail"}
+                onChange={handleFormChange}
+                value={userdata.email}
               />
-            <Select
-              id="branch"
-              label="Branch"
-              options={option_branch}
-              onChange={handleFormChange}
-              value={userdata.branch}
+              <Select
+                id="branch"
+                label="Branch"
+                options={option_branch}
+                onChange={handleFormChange}
+                value={userdata.branch}
               ></Select>
-            <Select
-              id="year"
-              label="Year"
-              options={option_year}
-              onChange={handleFormChange}
-              value= {userdata.year}
+              <Select
+                id="year"
+                label="Year"
+                options={option_year}
+                onChange={handleFormChange}
+                value={userdata.year}
               ></Select>
 
-            <button
-              onClick={handleUpdateProfile}
-              type="button"
-              className="bg-purple-500 text-center text-xl text-white rounded-lg p-1 hover:bg-purple-400 shadow hover:shadow-lg hover:scale-105 duration-200"
+              <button
+                onClick={handleUpdateProfile}
+                type="button"
+                className="bg-purple-500 text-center text-xl text-white rounded-lg p-1 hover:bg-purple-400 shadow hover:shadow-lg hover:scale-105 duration-200"
               >
-              Update
-            </button>
-          </form>
-        </div>
-        )
-        :
-        (
-
+                Update
+              </button>
+            </form>
+          </div>
+        ) : (
           <div className="absolute w-[70vw] h-[90vh] bg-white flex flex-col items-center justify-center right-5 rounded-lg gap-y-5">
-          <form action="" className="contents w-[100vw]">
-            <h1 className="text-4xl font-bold text-center ">Profile</h1>
-            <Input
-              id="name"
-              type={"name"}
-              label="Enter your name"
-              placeholder={"Enter your name"}
-              onChange={handleFormChange}
-            />
-            <Input
-              id="number"
-              type={"number"}
-              label="Enter your roll number"
-              placeholder={"Enter your roll number"}
-              onChange={handleFormChange}
+            <form action="" className="contents w-[100vw]">
+              <h1 className="text-4xl font-bold text-center ">Profile</h1>
+              <Input
+                id="name"
+                type={"name"}
+                label="Enter your name"
+                placeholder={"Enter your name"}
+                onChange={handleFormChange}
               />
-            <Input
-              id="email"
-              type={"mail"}
-              label="Your Mail"
-              placeholder={"Enter your Mail"}
-              onChange={handleFormChange}
+              <Input
+                id="number"
+                type={"number"}
+                label="Enter your roll number"
+                placeholder={"Enter your roll number"}
+                onChange={handleFormChange}
               />
-            <Select
-              id="branch"
-              label="Branch"
-              options={option_branch}
-              onChange={handleFormChange}
+              <Input
+                id="email"
+                type={"mail"}
+                label="Your Mail"
+                placeholder={"Enter your Mail"}
+                onChange={handleFormChange}
+              />
+              <Select
+                id="branch"
+                label="Branch"
+                options={option_branch}
+                onChange={handleFormChange}
               ></Select>
-            <Select
-              id="year"
-              label="Year"
-              options={option_year}
-              onChange={handleFormChange}
+              <Select
+                id="year"
+                label="Year"
+                options={option_year}
+                onChange={handleFormChange}
               ></Select>
 
-            <button
-              onClick={handleUpdateProfile}
-              type="button"
-              className="bg-purple-500 text-center text-xl text-white rounded-lg p-1 hover:bg-purple-400 shadow hover:shadow-lg hover:scale-105 duration-200"
+              <button
+                onClick={handleUpdateProfile}
+                type="button"
+                className="bg-purple-500 text-center text-xl text-white rounded-lg p-1 hover:bg-purple-400 shadow hover:shadow-lg hover:scale-105 duration-200"
               >
-              Update
-            </button>
-          </form>
-        </div>
-          )
-
-}
+                Update
+              </button>
+            </form>
+          </div>
+        )}
       </Layout>
     </>
   );

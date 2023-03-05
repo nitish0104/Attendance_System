@@ -18,9 +18,10 @@ const AuthenticationContext = ({ children }) => {
 				setUser(user)
 				const unsub = onSnapshot(doc(db, "Student_attendance", user.uid), (doc) => {
 					console.log("Current data: ", doc.data());
-					
+
 					setuserdata(doc.data());
-				
+					unsub()
+
 				});
 
 				// ...
@@ -48,8 +49,8 @@ const AuthenticationContext = ({ children }) => {
 						})
 					})
 				})
-				.catch((error)=>{
-alert(error)
+				.catch((error) => {
+					alert(error)
 				})
 		}
 		else alert("password not match")
