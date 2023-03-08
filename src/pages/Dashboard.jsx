@@ -3,8 +3,9 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import { UserAuth } from "../context/Auth_context";
-import { auth } from "../Firebase_config";
-import { Html5QrcodeScanner } from "html5-qrcode";
+import { auth, db } from "../Firebase_config";
+import { Html5Qrcode, Html5QrcodeScanner } from "html5-qrcode";
+import { doc, setDoc } from "@firebase/firestore";
 
 const Dashboard = () => {
   const { userdata } = UserAuth();
@@ -18,28 +19,54 @@ const Dashboard = () => {
   const scanbutton = () => {
     function onScanSuccess(decodedText, decodedResult) {
       console.log(`Code matched = ${decodedText}`, decodedResult);
+      stopscanning();
     }
 
     function onScanFailure(error) {
       console.warn(`Code scan error = ${error}`);
+      stopscanning();
     }
-
-    let html5QrcodeScanner = new Html5QrcodeScanner(
-      "reader",
-      { fps: 10, qrbox: { width: 250, height: 250 } },
-      /* verbose= */ false
+    const html5QrCode = new Html5Qrcode("reader");
+    const qrCodeSuccessCallback = async (decodedText, decodedResult) => {
+      /* handle success */
+      const qrcodedata = JSON.parse(decodedResult.decodedText)
+      await setDoc(doc(db, `${qrcodedata.department}-${qrcodedata.year}-${qrcodedata.subname}`, "date-starttime-endtime-studentUID"), {
+        name: "Los Angeles",
+        state: "CA",
+        country: "USA"
+      });
+      html5QrCode.stop()
+      .then((ignore) => {
+        // QR Code scanning is stopped.
+        console.log("object");
+      })
+      .catch((err) => {
+        alert("stop scanning error");
+      });
+    };
+    const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+    html5QrCode.start(
+      { facingMode: "environment" },
+      config,
+      qrCodeSuccessCallback
     );
-    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    // let html5QrcodeScanner = new Html5QrcodeScanner(
+    //   "reader",
+    //   { fps: 10, qrbox: { width: 250, height: 250 } },
+    //   /* verbose= */ false
+    // );
+    // html5QrcodeScanner.render(onScanSuccess, onScanFailure);
   };
-  // const stopscanning = () => {
-  //   Html5Qrcode.stop()
-  //     .then((ignore) => {
-  //       // QR Code scanning is stopped.
-  //     })
-  //     .catch((err) => {
-  //       alert("stop scanning error");
-  //     });
-  // };
+  const stopscanning = () => {
+    Html5Qrcode.stop()
+      .then((ignore) => {
+        // QR Code scanning is stopped.
+        console.log("object");
+      })
+      .catch((err) => {
+        alert("stop scanning error");
+      });
+  };
 
   return (
     <>
