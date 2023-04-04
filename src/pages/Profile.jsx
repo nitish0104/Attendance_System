@@ -45,7 +45,7 @@ const Profile = () => {
 
   return (
     <>
-      <Layout>
+      <Layout className={' flex justify-center items-center'}>
         {userdata ? (
           <div className="absolute w-[90vw] h-[80vh] bg-white flex flex-col items-center justify-center  rounded-lg gap-y-5">
             <form action="" className="contents w-[100vw]">

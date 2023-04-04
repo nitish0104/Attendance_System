@@ -53,7 +53,7 @@ const AuthenticationContext = ({ children }) => {
 					alert(error)
 				})
 		}
-		else alert("password not match")
+		else{ alert("password not match")}
 	}
 
 

@@ -37,33 +37,35 @@ const Login = () => {
   };
 
   return (
-    <Layout>
-      <div className="w-[80%] h-[60%] md:w-fit p-4 bg-white rounded-md  flex flex-col items-center  gap-2	pt-3">
-        
+    <Layout className={'flex justify-center items-center'}>
+      <div className="w-[80%] h-[60%] md:w-fit p-4 bg-white rounded-md  flex flex-col items-center justify-center gap-2 pt-3">
           <h1 className="text-black text-3xl font-semibold text-center">
             Login Here
           </h1>
-          <Input
+      
+        <Input
           
-            onChange={handleFormChange}
-            id="email"
-            label={"Mail"}
-            type={"email"}
-            placeholder={"Enter Your Mail"}
-          />
-          <Input
-            onChange={handleFormChange}
-            id="password"
-            label={"Password"}
-            type={"password"}
-            placeholder={"Enter Your password"}
-          />
-          <div className="flex">
-            <span>Dosen't have a account?</span>
-            <Link to="/Signup" className="text-blue-900">
-              Create Here
-            </Link>
-          </div>
+          onChange={handleFormChange}
+          id="email"
+          label={"Mail"}
+          type={"email"}
+          placeholder={"Enter Your Mail"}
+        />
+        <Input
+          onChange={handleFormChange}
+          id="password"
+          label={"Password"}
+          type={"password"}
+          placeholder={"Enter Your password"}
+        />
+        <div className="flex">
+          <span>Dosen't have a account?</span>
+          <Link to="/Signup" className="text-blue-900">
+            Create Here
+          </Link>
+        </div>
+        
+          
           <button
             type="button"
             onClick={handleloginIn}
@@ -71,6 +73,8 @@ const Login = () => {
           >
             Login
           </button>
+
+
       
       </div>
     </Layout>
