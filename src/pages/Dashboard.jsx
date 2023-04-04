@@ -11,11 +11,12 @@ import { RxCross1 } from "react-icons/rx";
 
 const Dashboard = () => {
   const [expand, setexpannd] = useState(false);
+  const Navigaet = useNavigate();
   const toggle = () => {
     setexpannd(!expand);
   };
 
-  const { userdata } = UserAuth();
+  const { userdata, setuser, user } = UserAuth();
   const naviGate = useNavigate();
   const logOut = async () => {
     await signOut(auth).then(() => {
@@ -37,16 +38,16 @@ const Dashboard = () => {
     const qrCodeSuccessCallback = async (decodedText, decodedResult) => {
       /* handle success */
       const qrcodedata = JSON.parse(decodedResult.decodedText);
+      setuser(user);
       await setDoc(
         doc(
           db,
           `${qrcodedata.department}-${qrcodedata.year}-${qrcodedata.subname}`,
-          "date-starttime-endtime-studentUID"
+          user.uid
         ),
         {
-          name: "Los Angeles",
-          state: "CA",
-          country: "USA",
+          email: user.email,
+          uid: user.uid,
         }
       );
       html5QrCode
@@ -75,6 +76,7 @@ const Dashboard = () => {
   const stopscanning = () => {
     Html5Qrcode.stop()
       .then((ignore) => {
+        Navigaet("/attendance");
         // QR Code scanning is stopped.
         console.log("object");
       })
@@ -87,7 +89,7 @@ const Dashboard = () => {
     <>
       {/* <Layout className={'flex justify-center items-center'}> */}
       <Layout>
-      <div className="absolute flex-col ">
+        <div className="absolute flex-col ">
           <div className=" pt-4 pl-4  ">
             <button onClick={toggle}>
               <div
@@ -149,7 +151,7 @@ const Dashboard = () => {
         </div>
         <div className="w-full h-full flex justify-center items-center flex-col gap-y-28  ">
           <div className=" h-[50vh] md:h-[55vh] p-2 w-[90vw] md:w-[25vw] border-2 border-dashed  rounded-lg">
-          <div id="reader" width="600px"></div>
+            <div id="reader" width="600px"></div>
             {/* <p className="flex items-center justify-center w-full h-fit">tap below</p> */}
           </div>
 
@@ -161,7 +163,6 @@ const Dashboard = () => {
             <AiOutlineScan />
           </button>
         </div>
-    
       </Layout>
     </>
   );
