@@ -11,12 +11,11 @@ import { RxCross1 } from "react-icons/rx";
 
 const Dashboard = () => {
   const [expand, setexpannd] = useState(false);
-  const Navigaet = useNavigate();
   const toggle = () => {
     setexpannd(!expand);
   };
 
-  const { userdata, setuser, user } = UserAuth();
+  const { userdata } = UserAuth();
   const naviGate = useNavigate();
   const logOut = async () => {
     await signOut(auth).then(() => {
@@ -38,16 +37,16 @@ const Dashboard = () => {
     const qrCodeSuccessCallback = async (decodedText, decodedResult) => {
       /* handle success */
       const qrcodedata = JSON.parse(decodedResult.decodedText);
-      setuser(user);
       await setDoc(
         doc(
           db,
           `${qrcodedata.department}-${qrcodedata.year}-${qrcodedata.subname}`,
-          user.uid
+          "date-starttime-endtime-studentUID"
         ),
         {
-          email: user.email,
-          uid: user.uid,
+          name: "Los Angeles",
+          state: "CA",
+          country: "USA",
         }
       );
       html5QrCode
