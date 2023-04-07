@@ -15,7 +15,7 @@ const Dashboard = () => {
     setexpannd(!expand);
   };
 
-  const { userdata } = UserAuth();
+  const { userdata ,user} = UserAuth();
   const naviGate = useNavigate();
   const logOut = async () => {
     await signOut(auth).then(() => {
@@ -23,60 +23,64 @@ const Dashboard = () => {
     });
   };
 
-  const scanbutton = () => {
-    function onScanSuccess(decodedText, decodedResult) {
-      console.log(`Code matched = ${decodedText}`, decodedResult);
-      stopscanning();
-    }
+  function onScanSuccess(decodedText, decodedResult) {
+    console.log(`Code matched = ${decodedText}`, decodedResult);
+    stopscanning();
+  }
 
-    function onScanFailure(error) {
-      console.warn(`Code scan error = ${error}`);
-      stopscanning();
-    }
+  function onScanFailure(error) {
+    console.warn(`Code scan error = ${error}`);
+    stopscanning();
+  }
+
+  const scanbutton = () => {
+  
     const html5QrCode = new Html5Qrcode("reader");
     const qrCodeSuccessCallback = async (decodedText, decodedResult) => {
       /* handle success */
       const qrcodedata = JSON.parse(decodedResult.decodedText);
-      await setDoc(
-        doc(
-          db,
-          `${qrcodedata.department}-${qrcodedata.year}-${qrcodedata.subname}`,
-          "date-starttime-endtime-studentUID"
-        ),
-        {
-          name: "Los Angeles",
-          state: "CA",
-          country: "USA",
-        }
-      );
-      html5QrCode
-        .stop()
-        .then((ignore) => {
-          // QR Code scanning is stopped.
-          console.log("object");
-        })
-        .catch((err) => {
-          alert("stop scanning error");
-        });
+      // await setDoc(
+      //   doc(
+      //     db,
+      //     `${qrcodedata.department}-${qrcodedata.year}-${qrcodedata.subname}`,
+      //     "date-starttime-endtime-studentUID"
+      //   ),
+      //   {
+      //     name: "Los Angeles",
+      //     state: "CA",
+      //     country: "USA",
+      //   }
+      // );
+      Html5Qrcode.stop()
+      .then((ignore) => {
+        // QR Code scanning is stopped.
+        console.log(user);
+      })
+      .catch((err) => {
+        alert("stop scanning error");
+      });
+      // stopscanning()
     };
     const config = { fps: 10, qrbox: { width: 250, height: 250 } };
     html5QrCode.start(
       { facingMode: "environment" },
       config,
-      qrCodeSuccessCallback
+      onScanSuccess,
+      onScanFailure
     );
-    // let html5QrcodeScanner = new Html5QrcodeScanner(
-    //   "reader",
-    //   { fps: 10, qrbox: { width: 250, height: 250 } },
-    //   /* verbose= */ false
-    // );
-    // html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-  };
+  }
+  //   let html5QrcodeScanner = new Html5QrcodeScanner(
+  //     "reader",
+  //     { fps: 10, qrbox: { width: 250, height: 250 } },
+  //     /* verbose= */ false
+  //   );
+  //   html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+  // };
   const stopscanning = () => {
     Html5Qrcode.stop()
       .then((ignore) => {
         // QR Code scanning is stopped.
-        console.log("object");
+        console.log(user);
       })
       .catch((err) => {
         alert("stop scanning error");
@@ -133,7 +137,7 @@ const Dashboard = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="" className="text-2xl hover:font-semibold">
+                  <Link to="/Attendance" className="text-2xl hover:font-semibold">
                     Your Attendance
                   </Link>
                 </li>

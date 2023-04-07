@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import { AuthenticationContext } from "./context/Auth_context";
 import Dashboard from "./pages/Dashboard";
+import Attendance from "./pages/Attendance";
 function App() {
   return (
     <>
@@ -16,6 +17,7 @@ function App() {
             <Route path="signup" element={<Signup />} />
             <Route path="/Profile" element={<Profile />} />
             <Route path="/Dashboard" element={<Dashboard />} />
+            <Route path="/Attendance" element={<Attendance />} />
           </Routes>
         </AuthenticationContext>
       </Router>
