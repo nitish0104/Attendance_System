@@ -79,6 +79,7 @@ const Dashboard = () => {
   const stopscanning = () => {
     Html5Qrcode.stop()
       .then((ignore) => {
+        Navigaet("/attendance");
         // QR Code scanning is stopped.
         console.log(user);
       })
@@ -91,7 +92,7 @@ const Dashboard = () => {
     <>
       {/* <Layout className={'flex justify-center items-center'}> */}
       <Layout>
-      <div className="absolute flex-col ">
+        <div className="absolute flex-col ">
           <div className=" pt-4 pl-4  ">
             <button onClick={toggle}>
               <div
@@ -153,7 +154,7 @@ const Dashboard = () => {
         </div>
         <div className="w-full h-full flex justify-center items-center flex-col gap-y-28  ">
           <div className=" h-[50vh] md:h-[55vh] p-2 w-[90vw] md:w-[25vw] border-2 border-dashed  rounded-lg">
-          <div id="reader" width="600px"></div>
+            <div id="reader" width="600px"></div>
             {/* <p className="flex items-center justify-center w-full h-fit">tap below</p> */}
           </div>
 
@@ -165,7 +166,6 @@ const Dashboard = () => {
             <AiOutlineScan />
           </button>
         </div>
-    
       </Layout>
     </>
   );

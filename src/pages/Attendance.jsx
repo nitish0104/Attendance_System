@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { doc, onSnapshot } from 'firebase/firestore';
 import React, { useEffect } from 'react'
 import { db } from '../Firebase_config';
@@ -24,3 +25,12 @@ const Attendance = () => {
 }
 
 export default Attendance
+=======
+import React from "react";
+
+const Attendance = () => {
+  return <div>your attendance</div>;
+};
+
+export default Attendance;
+>>>>>>> 00a8fa524f373e4b3608f8bea57d282e5af41640

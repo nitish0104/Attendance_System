@@ -21,9 +21,12 @@ const Signup = () => {
   };
   return (
     <>
-      <Layout className={'flex justify-center items-center'}>
+      <Layout className={"flex justify-center items-center"}>
         <div className="w-[80%] h-[60%] md:w-fit bg-white m-auto rounded-md flex flex-col justify-center items-center gap-2	p-2">
-          <form action="" className="flex flex-col justify-center items-center gap-y-5">
+          <form
+            action=""
+            className="flex flex-col justify-center items-center gap-y-5"
+          >
             <h1 className="text-black text-3xl font-semibold text-center">
               Create Student Account
             </h1>
